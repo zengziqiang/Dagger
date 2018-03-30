@@ -27,8 +27,7 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public void GetUserInfo() {
-        // mainView.NetWorkSuccess("");
-//        mainView.LoadDatas();
+        mainView.LoadDatas();
         String aaaa = mainModel.fetchPersionInfo("aaaa");
         mainView.NetWorkSuccess(aaaa);
     }

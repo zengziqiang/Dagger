@@ -14,7 +14,7 @@ import dagger.Provides;
  * @author zengziqiang
  * @e-mail iszengziqiang@163.com
  * @date on 2018/3/26
- * @desc
+ * @desc 需要注入什么就提供什么
  */
 
 @Module

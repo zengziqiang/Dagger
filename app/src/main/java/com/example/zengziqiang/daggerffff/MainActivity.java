@@ -1,21 +1,23 @@
 package com.example.zengziqiang.daggerffff;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.example.zengziqiang.daggerffff.di.component.DaggerMainComponent;
 import com.example.zengziqiang.daggerffff.di.module.MainModule;
 import com.example.zengziqiang.daggerffff.presenter.MainPresenter;
-import com.example.zengziqiang.daggerffff.utils.ErrorInterface;
 import com.example.zengziqiang.daggerffff.utils.Tools;
 import com.example.zengziqiang.daggerffff.view.MainView;
 
 import javax.inject.Inject;
 
+/**
+ * @author zengziqiang
+ * @e-mail iszengziqiang@163.com
+ * @date 2018/3/30
+ * @desc MVP基于dagger最基础的实现方式
+ */
 public class MainActivity extends BaseActivity implements View.OnClickListener, MainView {
 
     private Button btn_login;
@@ -25,16 +27,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Inject
     Tools tools;
-    private RelativeLayout rl_root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //注入依赖
         DaggerMainComponent.builder().mainModule(new MainModule(this)).build().inject(MainActivity.this);
-        initView();
-
         showToast("消息提示:" + tools.ShowMsg());
+
+        initView();
     }
 
     private void initView() {
@@ -46,41 +48,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                LoadDatas();
-                handler.sendEmptyMessageDelayed(0, 5000);
-//                presenter.GetUserInfo();
-
+                presenter.GetUserInfo();
                 break;
         }
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    presenter.GetUserInfo();
-                    break;
-            }
-        }
-    };
-
+    /**
+     * 网络请求等待操作
+     */
     @Override
     public void LoadDatas() {
-        Loading();
+
     }
 
+    /**
+     * 网络请求成功的操作
+     *
+     * @param result
+     */
     @Override
     public void NetWorkSuccess(String result) {
-        CloseDialog();
         showToast(result);
-        rl_root = findViewById(R.id.rl_root);
-        showErrorMsg(MainActivity.this, rl_root, new ErrorInterface() {
-            @Override
-            public void toLoadAgain() {
-                showToast("重新加载数据");
-            }
-        });
     }
 }

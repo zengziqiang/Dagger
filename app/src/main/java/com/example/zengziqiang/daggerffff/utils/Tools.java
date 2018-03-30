@@ -9,8 +9,8 @@ package com.example.zengziqiang.daggerffff.utils;
 
 public class Tools {
 
-    public String ShowMsg(){
-        return "这是工具里的字符串";
+    public String ShowMsg() {
+        return "可以注入工具类";
     }
 
 }
